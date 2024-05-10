@@ -118,7 +118,7 @@ public class BooksRepository : IBooksRepository
         return bookDto;
     }
 
-    public async Task<BookDTO> AddNewBookWithGenres(NewBookWithGenresDTO newBookWithGenresDTO)
+    public async Task<int> AddNewBookWithGenres(NewBookWithGenresDTO newBookWithGenresDTO)
     {
 	    var insert = @"INSERT INTO books VALUES(@BookTitle);
 					   SELECT @@IDENTITY AS ID;";
@@ -152,12 +152,8 @@ public class BooksRepository : IBooksRepository
 
 		    await transaction.CommitAsync();
 
-		    return new BookDTO()
-		    {
-			    Pk = Convert.ToInt32(id),
-			    Title = newBookWithGenresDTO.Title,
-			    Genres = newBookWithGenresDTO.Genres as List<string>
-		    };
+
+		    return Convert.ToInt32(id);
 	    }
 	    catch (Exception)
 	    {

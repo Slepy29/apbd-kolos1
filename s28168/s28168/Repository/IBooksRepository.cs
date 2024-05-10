@@ -8,5 +8,5 @@ public interface IBooksRepository
     Task<bool> DoesBookExist(string title);
     Task<bool> DoesGenreExist(int id);
     Task<BookDTO> GetBook(int id);
-    Task<BookDTO> AddNewBookWithGenres(NewBookWithGenresDTO newBookWithGenresDto);
+    Task<int> AddNewBookWithGenres(NewBookWithGenresDTO newBookWithGenresDto);
 }

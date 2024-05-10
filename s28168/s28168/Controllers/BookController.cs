@@ -37,8 +37,13 @@ public class BooksController : ControllerBase
                 return NotFound($"Genre with given ID - {genreId} doesn't exist");
         }
 
-        await _booksRepository.AddNewBookWithGenres(newBookWithGenresDTO);
+        int addedBookId = await _booksRepository.AddNewBookWithGenres(newBookWithGenresDTO);
+        
+        if (!await _booksRepository.DoesBookExist(addedBookId))
+            return NotFound($"New book was not found, book id - {addedBookId}");
 
-        return Created(Request.Path.Value ?? "api/books", newBookWithGenresDTO);
+        var book = await _booksRepository.GetBook(addedBookId);
+
+        return Created(Request.Path.Value ?? "api/books", book);
     }
 }
